@@ -7,6 +7,13 @@ public class TestOne {
         String inputOne = "cacao and coffee";
         String inputTwo = "success";
 
+        System.out.println("Result after the first step (input \"success\"): " + Step1(inputTwo));
+        System.out.println("Result after the second step (input \"ooo\", \"oou\", \"iee\"): " + Step2("ooo") + ", " + Step2("oou") + ", " + Step2("iee"));
+        System.out.println("Result after the third step (input \"The\"): " + Step3("The"));
+        System.out.println("Result after the fourth step (input \"the table\"): " + Step4(Step3(Step2(Step1("the table"))), "the table"));
+
+        System.out.println("The result of the entire task (input \"cacao and coffee\", \"success\"):");
+
         String oneAfterStep3 = Step3(Step2(Step1(inputOne)));
         String twoAfterStep3 = Step3(Step2(Step1(inputTwo)));
 
