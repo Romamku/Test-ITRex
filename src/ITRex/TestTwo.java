@@ -61,7 +61,6 @@ public class TestTwo {
 
         return levelList;
     }
-
 }
 
 class Cell {
@@ -73,14 +72,14 @@ class Cell {
        this.value = value;
    }
 }
-    class Level {
-        public String name;
-        ArrayList<Cell> cellList;
+class Level {
+    public String name;
+    ArrayList<Cell> cellList;
 
-        public Level (String name) {
-            this.name = name;
-            this.cellList = new ArrayList<Cell>();
-        }
+    public Level (String name) {
+        this.name = name;
+        this.cellList = new ArrayList<Cell>();
     }
+}
 
 
