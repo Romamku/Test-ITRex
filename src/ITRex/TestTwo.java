@@ -2,6 +2,7 @@ package ITRex;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class TestTwo {
@@ -9,16 +10,20 @@ public class TestTwo {
     public static void main(String[] args) {
 
         try {
+            // create reader
             File file = new File("INPUT.TXT");
             FileReader fr = new FileReader(file);
             BufferedReader reader = new BufferedReader(fr);
+
             String line = reader.readLine();
 
-            int levelNumber = line.charAt(0) - '0';
-            int rowNumber = line.charAt(1) - '0';
-            int columnNumber = line.charAt(2) - '0';
+            Coordinates initialCoordinates = new Coordinates(
+                    line.charAt(0) - '0',
+                    line.charAt(1) - '0',
+                    line.charAt(2) - '0'
+            );
 
-            ArrayList<Level> levelList = createLevelList(levelNumber);
+            HashMap<String, Cell> cellHashMap = new HashMap<String, Cell>();
 
             int currentLevelNumber = 0;
             int currentRowNumber = 1;
@@ -39,12 +44,23 @@ public class TestTwo {
                 currentRowNumber++;
 
                 for (int currentColumnNumber = 0; currentColumnNumber<line.length(); currentColumnNumber++) {
-                    String name = "H" + currentLevelNumber + "M" +  currentRowNumber + "N" + (currentColumnNumber+1);
                     char value = line.charAt(currentColumnNumber);
-                    Cell cell = new Cell(name, value);
-                    levelList.get(currentLevelNumber-1).cellList.add(cell);
+
+                    if (value != 'O') {
+                        Coordinates currentCoordinates = new Coordinates(
+                                currentLevelNumber,
+                                currentRowNumber,
+                                currentColumnNumber+1
+                        );
+                        addCellsToHashMap(currentCoordinates, cellHashMap);
+                    }
                 }
             }
+
+            for (Cell cell : cellHashMap.values()) {
+                cell.fillAdjacentCellList(cellHashMap);
+            }
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -52,33 +68,10 @@ public class TestTwo {
             e.printStackTrace();
         }
     }
-    private static ArrayList<Level> createLevelList(int levelNumber) {
-        ArrayList<Level> levelList = new ArrayList<>();
 
-        for(int i = 1; i <= levelNumber; i++) {
-            levelList.add(new Level("H" + i));
-        }
-
-        return levelList;
-    }
-}
-
-class Cell {
-   public String name;
-   public char value;
-
-   public Cell (String name, char value) {
-       this.name = name;
-       this.value = value;
-   }
-}
-class Level {
-    public String name;
-    ArrayList<Cell> cellList;
-
-    public Level (String name) {
-        this.name = name;
-        this.cellList = new ArrayList<Cell>();
+    private static void addCellsToHashMap(Coordinates currentCoordinates, HashMap<String, Cell> cellHashMap) {
+        Cell cell = new Cell(currentCoordinates);
+        cellHashMap.put(cell.name, cell);
     }
 }
 
