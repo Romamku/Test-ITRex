@@ -20,7 +20,7 @@ public class TestOne {
         System.out.println(Step4(oneAfterStep3, inputOne));
         System.out.println(Step4(twoAfterStep3, inputTwo));
     }
-    public static String Step1(String input) {
+    private static String Step1(String input) {
         input = input.replace("ce", "se");
         input = input.replace("ci", "si");
         input = input.replace("ck", "k");
@@ -28,7 +28,7 @@ public class TestOne {
         return input;
     }
 
-    public static String Step2(String input) {
+    private static String Step2(String input) {
         input = input.replace("ee", "i");
         input = input.replace("oo", "u");
 
@@ -42,7 +42,7 @@ public class TestOne {
         return sb.toString();
     }
 
-    public static String Step3(String input) {
+    private static String Step3(String input) {
         String[] words = input.split(" "); //создал масив из слов с разделитем пробел
         ArrayList<String> resultList = new ArrayList<>();
 
@@ -58,7 +58,7 @@ public class TestOne {
         return result;
     }
 
-    public static String Step4(String input, String originalInput) {
+    private static String Step4(String input, String originalInput) {
         String[] originalWords = originalInput.split(" "); // создал массив слов из строки
         ArrayList<String> resultList = new ArrayList<>();
         String[] inputWords = input.split( " ");
