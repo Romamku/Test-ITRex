@@ -8,6 +8,7 @@ public class Cell {
     private final Coordinates coordinates;
     private final ArrayList<Cell> adjacentCellList;
 
+
     public Cell(Coordinates coordinates) {
         this.coordinates = coordinates;
         this.adjacentCellList = new ArrayList<Cell>();
@@ -48,4 +49,6 @@ public class Cell {
 
         return  level + "_" +  row + "_" + column;
     }
+
+
 }
