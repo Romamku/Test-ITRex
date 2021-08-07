@@ -7,20 +7,20 @@ public class TestOne {
         String inputOne = "cacao and coffee";
         String inputTwo = "success";
 
-        System.out.println("Result after the first step (input \"success\"): " + Step1(inputTwo));
-        System.out.println("Result after the second step (input \"ooo\", \"oou\", \"iee\"): " + Step2("ooo") + ", " + Step2("oou") + ", " + Step2("iee"));
-        System.out.println("Result after the third step (input \"The\"): " + Step3("The"));
-        System.out.println("Result after the fourth step (input \"the table\"): " + Step4(Step3(Step2(Step1("the table"))), "the table"));
+        System.out.println("Result after the first step (input \"success\"): " + removeCFromTheText(inputTwo));
+        System.out.println("Result after the second step (input \"ooo\", \"oou\", \"iee\"): " + removeDoubleLetter("ooo") + ", " + removeDoubleLetter("oou") + ", " + removeDoubleLetter("iee"));
+        System.out.println("Result after the third step (input \"The\"): " + removeLetterAtTheEnd("The"));
+        System.out.println("Result after the fourth step (input \"the table\"): " + removeArticles(removeLetterAtTheEnd(removeDoubleLetter(removeCFromTheText("the table"))), "the table"));
 
         System.out.println("The result of the entire task (input \"cacao and coffee\", \"success\"):");
 
-        String oneAfterStep3 = Step3(Step2(Step1(inputOne)));
-        String twoAfterStep3 = Step3(Step2(Step1(inputTwo)));
+        String oneAfterStep3 = removeLetterAtTheEnd(removeDoubleLetter(removeCFromTheText(inputOne)));
+        String twoAfterStep3 = removeLetterAtTheEnd(removeDoubleLetter(removeCFromTheText(inputTwo)));
 
-        System.out.println(Step4(oneAfterStep3, inputOne));
-        System.out.println(Step4(twoAfterStep3, inputTwo));
+        System.out.println(removeArticles(oneAfterStep3, inputOne));
+        System.out.println(removeArticles(twoAfterStep3, inputTwo));
     }
-    private static String Step1(String input) {
+    private static String removeCFromTheText(String input) {
         input = input.replace("ce", "se");
         input = input.replace("ci", "si");
         input = input.replace("ck", "k");
@@ -28,7 +28,7 @@ public class TestOne {
         return input;
     }
 
-    private static String Step2(String input) {
+    private static String removeDoubleLetter(String input) {
         input = input.replace("ee", "i");
         input = input.replace("oo", "u");
 
@@ -42,7 +42,7 @@ public class TestOne {
         return sb.toString();
     }
 
-    private static String Step3(String input) {
+    private static String removeLetterAtTheEnd(String input) {
         String[] words = input.split(" "); //создал масив из слов с разделитем пробел
         ArrayList<String> resultList = new ArrayList<>();
 
@@ -58,7 +58,7 @@ public class TestOne {
         return result;
     }
 
-    private static String Step4(String input, String originalInput) {
+    private static String removeArticles(String input, String originalInput) {
         String[] originalWords = originalInput.split(" "); // создал массив слов из строки
         ArrayList<String> resultList = new ArrayList<>();
         String[] inputWords = input.split( " ");
