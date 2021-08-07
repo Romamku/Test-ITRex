@@ -9,16 +9,12 @@ public class TestOne {
 
         System.out.println("Result after the first step (input \"success\"): " + removeCFromTheText(inputTwo));
         System.out.println("Result after the second step (input \"ooo\", \"oou\", \"iee\"): " + removeDoubleLetter("ooo") + ", " + removeDoubleLetter("oou") + ", " + removeDoubleLetter("iee"));
-        System.out.println("Result after the third step (input \"The\"): " + removeLetterAtTheEnd("The"));
-        System.out.println("Result after the fourth step (input \"the table\"): " + removeArticles(removeLetterAtTheEnd(removeDoubleLetter(removeCFromTheText("the table"))), "the table"));
+        System.out.println("Result after the third step (input \"The\"): " + removeTheLetterAtTheEnd("The"));
+        System.out.println("Result after the fourth step (input \"the table\"): " + removeArticles("the table"));
 
         System.out.println("The result of the entire task (input \"cacao and coffee\", \"success\"):");
-
-        String oneAfterStep3 = removeLetterAtTheEnd(removeDoubleLetter(removeCFromTheText(inputOne)));
-        String twoAfterStep3 = removeLetterAtTheEnd(removeDoubleLetter(removeCFromTheText(inputTwo)));
-
-        System.out.println(removeArticles(oneAfterStep3, inputOne));
-        System.out.println(removeArticles(twoAfterStep3, inputTwo));
+        System.out.println(removeTheLetterAtTheEnd(removeDoubleLetter(removeCFromTheText(removeArticles(inputOne)))));
+        System.out.println(removeTheLetterAtTheEnd(removeDoubleLetter(removeCFromTheText(removeArticles(inputTwo)))));
     }
     private static String removeCFromTheText(String input) {
         input = input.replace("ce", "se");
@@ -42,7 +38,7 @@ public class TestOne {
         return sb.toString();
     }
 
-    private static String removeLetterAtTheEnd(String input) {
+    private static String removeTheLetterAtTheEnd(String input) {
         String[] words = input.split(" "); //создал масив из слов с разделитем пробел
         ArrayList<String> resultList = new ArrayList<>();
 
@@ -58,16 +54,14 @@ public class TestOne {
         return result;
     }
 
-    private static String removeArticles(String input, String originalInput) {
-        String[] originalWords = originalInput.split(" "); // создал массив слов из строки
-        ArrayList<String> resultList = new ArrayList<>();
+    private static String removeArticles(String input) {
         String[] inputWords = input.split( " ");
+        ArrayList<String> resultList = new ArrayList<>();
 
-        for (int i = 0; i<originalWords.length; i++) {
+        for (int i = 0; i<inputWords.length; i++) {
             String inputValue = inputWords[i];
-            String originalValue = originalWords[i];
 
-            if (!originalValue.equals("the")  && !originalValue.equals("a") && !originalValue.equals("an")) {
+            if (!inputValue.equals("the")  && !inputValue.equals("a") && !inputValue.equals("an")) {
                 resultList.add(inputValue);
             }
         }
