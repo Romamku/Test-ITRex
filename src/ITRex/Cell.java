@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Cell {
-    public String name;
+    public final String name;
+    public final ArrayList<Cell> adjacentCellList;
     private final Coordinates coordinates;
-    private final ArrayList<Cell> adjacentCellList;
+
 
 
     public Cell(Coordinates coordinates) {

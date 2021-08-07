@@ -67,18 +67,28 @@ public class TestTwo {
 
             HashMap<String, Integer> cellNameToIndex = getCellNameToIndexTo(cellHashMap);
 
-            ArrayList<String> path = new ArrayList<>();
-
             String currentKey = "1_1_1";
 
+            ArrayList<String> path = new ArrayList<>();
+            path.add(currentKey);
 
-            Double [] timeArray = new Double[cellNameToIndex.size()];
-
-            for (int i = 0; i < cellNameToIndex.size(); i++){
-
+            Double[] timeArray = new Double[cellNameToIndex.size()];
+            timeArray[0] = 0.0;
+            for (int i = 1; i < timeArray.length; i++) {
+                timeArray[i] = Double.POSITIVE_INFINITY;
             }
 
+            for (int i = 0; i < cellNameToIndex.size(); i++){
+                Cell cell = cellHashMap.get(currentKey);
+                ArrayList<Cell> adjacentCellList = cell.adjacentCellList;
 
+                for (int j = 0; j <adjacentCellList.size(); j++) {
+                    Cell adjacentCell = cell.adjacentCellList.get(j);
+                    int adjacentCellIndex = cellNameToIndex.get(adjacentCell.name);
+                    System.out.println();
+                }
+
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -86,7 +96,6 @@ public class TestTwo {
         }
 
     }
-
 
     private static void addCellsToHashMap(Coordinates currentCoordinates, HashMap<String, Cell> cellHashMap) {
         Cell cell = new Cell(currentCoordinates);
@@ -103,7 +112,6 @@ public class TestTwo {
 
         return cellNameToIndex;
     }
-
 }
 
 
