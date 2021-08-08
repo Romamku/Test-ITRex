@@ -1,15 +1,68 @@
 package ITRex;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ShortestTimeSearch {
     private final double movementTime;
     private final Coordinates initialCoordinates;
+    private final HashMap<String, Cell> cellHashMap;
+    private String princeKey;
+    private String princessKey;
 
     public ShortestTimeSearch(ArrayList<String> input, int movementTime){
         this.movementTime = movementTime;
         this.initialCoordinates = this.createInitialCoordinates(input);
         ArrayList<String[]> blocks = this.createBlocks(input);
+        this.cellHashMap = this.createCellHashMap(blocks);
+
+    }
+
+    public int findShortestTime() {
+        String startKey = this.princeKey;
+        String endKey = this.princessKey;
+
+        String [] cellNameArray = cellHashMap.keySet().toArray(new String[cellHashMap.size()]);
+
+        HashMap<String, Integer> cellNameToIndex = new HashMap<String, Integer>();
+
+        for (int i = 0; i < cellHashMap.size(); i++){
+            cellNameToIndex.put(cellNameArray[i], i);
+        }
+
+        String currentKey = startKey;
+
+        ArrayList<String> path = new ArrayList<>();
+        path.add(currentKey);
+
+        Double[] timeArray = new Double[cellNameArray.length];
+        timeArray[0] = 0.0;
+        for (int i = 1; i < timeArray.length; i++) {
+            timeArray[i] = Double.POSITIVE_INFINITY;
+        }
+
+        for (int i = 0; i < cellNameArray.length; i++){
+            Cell cell = cellHashMap.get(currentKey);
+            ArrayList<Cell> adjacentCellList = cell.adjacentCellList;
+
+            for (int j = 0; j <adjacentCellList.size(); j++) {
+                Cell adjacentCell = cell.adjacentCellList.get(j);
+                int adjacentCellTimeArrayIndex = cellNameToIndex.get(adjacentCell.name);
+                timeArray[adjacentCellTimeArrayIndex] = movementTime;
+                System.out.println();
+            }
+
+            double minTime = Double.POSITIVE_INFINITY;
+            for (int k = 0; k < timeArray.length; k++) {
+              // if (currentKey.equals()){
+
+                //}
+            }
+
+        }
+
+
+        return 1;
     }
 
     private Coordinates createInitialCoordinates(ArrayList<String> input){
@@ -42,5 +95,48 @@ public class ShortestTimeSearch {
         }
         return result;
     }
+
+    private HashMap<String, Cell> createCellHashMap(ArrayList<String[]> blocks) {
+        HashMap<String, Cell> cellHashMap = new HashMap<String, Cell>();
+
+        for (int levelIndex = 0; levelIndex < blocks.size(); levelIndex++) {
+            String[] level = blocks.get(levelIndex);
+
+            for (int rowIndex = 0; rowIndex < level.length; rowIndex++) {
+                String row = level[rowIndex];
+
+                for (int columnIndex = 0; columnIndex < row.length(); columnIndex++) {
+                    char value = row.charAt(columnIndex);
+                    if (value != 'O') {
+                        Coordinates coordinates = new Coordinates(levelIndex, rowIndex, columnIndex);
+                        Cell cell = new Cell(coordinates);
+                        cellHashMap.put(cell.name, cell);
+
+                        if (value == '1') {
+                            princeKey = cell.name;
+                        }
+
+                        if (value == '2') {
+                            princessKey = cell.name;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (Cell cell : cellHashMap.values()) {
+            cell.fillAdjacentCellList(cellHashMap);
+        }
+
+        return  cellHashMap;
+    }
+
+    private String getKey(int levelIndex, int rowIndex, int columnIndex) {
+        return levelIndex + "_" +  rowIndex + "_" + columnIndex;
+    }
+
+
+
+
 
 }
