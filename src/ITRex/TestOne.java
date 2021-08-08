@@ -9,12 +9,12 @@ public class TestOne {
 
         System.out.println("Result after the first step (input \"success\"): " + removeCFromTheText(inputTwo));
         System.out.println("Result after the second step (input \"ooo\", \"oou\", \"iee\"): " + removeDoubleLetter("ooo") + ", " + removeDoubleLetter("oou") + ", " + removeDoubleLetter("iee"));
-        System.out.println("Result after the third step (input \"The\"): " + removeTheLetterAtTheEnd("The"));
+        System.out.println("Result after the third step (input \"The\"): " + removeEAtTheEnd("The"));
         System.out.println("Result after the fourth step (input \"the table\"): " + removeArticles("the table"));
 
         System.out.println("The result of the entire task (input \"cacao and coffee\", \"success\"):");
-        System.out.println(removeTheLetterAtTheEnd(removeDoubleLetter(removeCFromTheText(removeArticles(inputOne)))));
-        System.out.println(removeTheLetterAtTheEnd(removeDoubleLetter(removeCFromTheText(removeArticles(inputTwo)))));
+        System.out.println(removeEAtTheEnd(removeDoubleLetter(removeCFromTheText(removeArticles(inputOne)))));
+        System.out.println(removeEAtTheEnd(removeDoubleLetter(removeCFromTheText(removeArticles(inputTwo)))));
     }
     private static String removeCFromTheText(String input) {
         input = input.replace("ce", "se");
@@ -38,7 +38,7 @@ public class TestOne {
         return sb.toString();
     }
 
-    private static String removeTheLetterAtTheEnd(String input) {
+    private static String removeEAtTheEnd(String input) {
         String[] words = input.split(" "); //создал масив из слов с разделитем пробел
         ArrayList<String> resultList = new ArrayList<>();
 

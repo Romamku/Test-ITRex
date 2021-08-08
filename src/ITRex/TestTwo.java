@@ -2,6 +2,7 @@ package ITRex;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -10,18 +11,12 @@ public class TestTwo {
     public static void main(String[] args) {
 
         try {
-            // create reader
-            File file = new File("INPUT.TXT");
-            FileReader fr = new FileReader(file);
-            BufferedReader reader = new BufferedReader(fr);
+            ArrayList<String> input = readFromFile("INPUT.TXT");
+            ShortestTimeSearch shortestTimeSearch = new ShortestTimeSearch(input, 5);
 
-            String line = reader.readLine();
+            String line = "";
 
-            Coordinates initialCoordinates = new Coordinates(
-                    line.charAt(0) - '0',
-                    line.charAt(1) - '0',
-                    line.charAt(2) - '0'
-            );
+            double movementTime = 5;
 
             HashMap<String, Cell> cellHashMap = new HashMap<String, Cell>();
 
@@ -29,7 +24,7 @@ public class TestTwo {
             int currentRowNumber = 1;
 
             while (line != null) {
-                line = reader.readLine();
+                line = "";
 
                 if (line == null) {
                     break; // после считывания последней строки выходим из цикла
@@ -46,10 +41,6 @@ public class TestTwo {
                 for (int currentColumnNumber = 0; currentColumnNumber < line.length(); currentColumnNumber++) {
                     char value = line.charAt(currentColumnNumber);
 
-                    if(value == '1') {
-
-                    }
-
                     if (value != 'O') {
                         Coordinates currentCoordinates = new Coordinates(
                                 currentLevelNumber,
@@ -65,7 +56,7 @@ public class TestTwo {
                 cell.fillAdjacentCellList(cellHashMap);
             }
 
-            HashMap<String, Integer> cellNameToIndex = getCellNameToIndexTo(cellHashMap);
+            HashMap<String, Integer> cellNameToIndex = getCellNameToTimeArrayIndex(cellHashMap);
 
             String currentKey = "1_1_1";
 
@@ -84,7 +75,9 @@ public class TestTwo {
 
                 for (int j = 0; j <adjacentCellList.size(); j++) {
                     Cell adjacentCell = cell.adjacentCellList.get(j);
-                    int adjacentCellIndex = cellNameToIndex.get(adjacentCell.name);
+                    int adjacentCellTimeArrayIndex = cellNameToIndex.get(adjacentCell.name);
+                    timeArray[adjacentCellTimeArrayIndex] = movementTime;
+
                     System.out.println();
                 }
 
@@ -102,7 +95,9 @@ public class TestTwo {
         cellHashMap.put(cell.name, cell);
     }
 
-    private static HashMap<String, Integer> getCellNameToIndexTo(HashMap<String, Cell> cellHashMap) {
+    //написать о том зачем нам индекс -> к таймэрэю
+
+    private static HashMap<String, Integer> getCellNameToTimeArrayIndex(HashMap<String, Cell> cellHashMap) {
         HashMap<String, Integer> cellNameToIndex = new HashMap<String, Integer>();
         String [] keyArray = cellHashMap.keySet().toArray(new String[cellHashMap.size()]);
 
@@ -111,6 +106,31 @@ public class TestTwo {
         }
 
         return cellNameToIndex;
+    }
+
+    private static String findNextKey (Double[] timeArray, HashMap<String, Integer> cellNameToTimeArrayIndex, ArrayList<String> path){
+        double minValue = Double.POSITIVE_INFINITY;
+        String minKey;
+
+        for(int i = 0; i < timeArray.length; i++) {
+            minValue = timeArray[i];
+
+
+
+        }
+
+        return "";
+    }
+    private static ArrayList<String> readFromFile(String fileName) throws IOException {
+
+        ArrayList<String> result = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(new File(fileName)))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                result.add(line);
+            }
+        }
+        return result;
     }
 }
 
