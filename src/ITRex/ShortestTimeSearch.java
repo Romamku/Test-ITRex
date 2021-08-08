@@ -5,17 +5,13 @@ import java.util.HashMap;
 
 public class ShortestTimeSearch {
     private final double movementTime;
-    private final Coordinates initialCoordinates;
     private final HashMap<String, Cell> cellHashMap;
     private String princeKey;
     private String princessKey;
 
     public ShortestTimeSearch(ArrayList<String> input, int movementTime){
         this.movementTime = movementTime;
-        this.initialCoordinates = this.createInitialCoordinates(input);
-        ArrayList<String[]> blocks = this.createBlocks(input);
-        this.cellHashMap = this.createCellHashMap(blocks);
-
+        this.cellHashMap = this.createCellHashMap(input);
     }
 
     public int findShortestTime() {
@@ -47,22 +43,27 @@ public class ShortestTimeSearch {
 
             for (int j = 0; j <adjacentCellList.size(); j++) {
                 Cell adjacentCell = cell.adjacentCellList.get(j);
-                int adjacentCellTimeArrayIndex = cellNameToIndex.get(adjacentCell.name);
-                timeArray[adjacentCellTimeArrayIndex] = movementTime;
-                System.out.println();
+                if(!path.contains(adjacentCell.name)) {
+                    int adjacentCellTimeArrayIndex = cellNameToIndex.get(adjacentCell.name);
+                    double previousMinTime = timeArray[cellNameToIndex.get(currentKey)];
+                    double currentTime = timeArray[adjacentCellTimeArrayIndex];
+                    timeArray[adjacentCellTimeArrayIndex] = Math.min(currentTime, previousMinTime+movementTime);
+                }
             }
 
             double minTime = Double.POSITIVE_INFINITY;
+            String minTimeCellName = currentKey;
             for (int k = 0; k < timeArray.length; k++) {
-              // if (currentKey.equals()){
-
-                //}
+                if (!path.contains(cellNameArray[k]) && timeArray[k] < minTime) {
+                    minTime = timeArray[k];
+                    minTimeCellName = cellNameArray[k];
+                }
             }
-
+            currentKey = minTimeCellName;
+            path.add(currentKey);
         }
 
-
-        return 1;
+        return timeArray[cellNameToIndex.get(endKey)].intValue();
     }
 
     private Coordinates createInitialCoordinates(ArrayList<String> input){
@@ -72,6 +73,7 @@ public class ShortestTimeSearch {
                 firstLine.charAt(1) - '0',
                 firstLine.charAt(2) - '0'
         );
+
         return initialCoordinates;
     }
 
@@ -85,18 +87,21 @@ public class ShortestTimeSearch {
             }
         }
 
-        for (int i = 0; i < this.initialCoordinates.level; i++) {
+        Coordinates initialCoordinates = this.createInitialCoordinates(input);
+        for (int i = 0; i < initialCoordinates.level; i++) {
 
-            String[] levelBlock = new String[this.initialCoordinates.row];
-            for (int j = 0; j < this.initialCoordinates.row; j++) {
-                levelBlock[j] = modifiedInput.get(i * this.initialCoordinates.row + j);
+            String[] levelBlock = new String[initialCoordinates.row];
+            for (int j = 0; j < initialCoordinates.row; j++) {
+                levelBlock[j] = modifiedInput.get(i * initialCoordinates.row + j);
             }
             result.add(levelBlock);
         }
+
         return result;
     }
 
-    private HashMap<String, Cell> createCellHashMap(ArrayList<String[]> blocks) {
+    private HashMap<String, Cell> createCellHashMap(ArrayList<String> input) {
+        ArrayList<String[]> blocks = this.createBlocks(input);
         HashMap<String, Cell> cellHashMap = new HashMap<String, Cell>();
 
         for (int levelIndex = 0; levelIndex < blocks.size(); levelIndex++) {
@@ -134,9 +139,4 @@ public class ShortestTimeSearch {
     private String getKey(int levelIndex, int rowIndex, int columnIndex) {
         return levelIndex + "_" +  rowIndex + "_" + columnIndex;
     }
-
-
-
-
-
 }
